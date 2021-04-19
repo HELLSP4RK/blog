@@ -1,0 +1,18 @@
+<!-- Pagination -->
+{% if page.paginator.num_pages > 1 %}
+    <nav class="pagination">
+        {% if page.has_previous %}
+            <a href="?page={{ page.previous_page_number }}" class="pagination__page pagination__icon pagination__page--previous"><i class="ui-arrow-left"></i></a>
+        {% endif %}
+        {% for page_num in page.paginator.page_range %}
+            {% if page.number == page_num %}
+                <span class="pagination__page pagination__page--current">{{ page_num }}</span>
+            {% elif page_num >= page.number|add:-2 and page_num <= page.number|add:2 %}
+                <a href="?page={{ page_num }}" class="pagination__page">{{ page_num }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if page.has_next %}
+            <a href="?page={{ page.next_page_number }}" class="pagination__page pagination__icon pagination__page--next"><i class="ui-arrow-right"></i></a>
+        {% endif %}
+    </nav>
+{% endif %}

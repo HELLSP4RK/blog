@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+
+{% load page_modules %}
+
+{% block body_class %}bg-light style-default style-rounded{% endblock %}
+{% block body %}
+
+<div class="main-container container my-xl-4" xmlns="http://www.w3.org/1999/html">
+        <div class="title-wrap">
+            <h1 class="section-title">{{ title }}</h1>
+        </div>
+
+        <form class="form-group" action="{% url 'blog:login' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            </p><a href="{% url 'blog:forgot_password' %}">Забыли пароль?</a></p>
+            <input type="submit" class="btn btn-lg btn-color col-2" value="Войти">
+            {% social_auth %}
+        </form>
+        <!-- Social networks -->
+        <div>
+          <div class="sticky-col">
+
+          </div>
+        </div> <!-- Social networks -->
+    </div>
+
+{% endblock %}

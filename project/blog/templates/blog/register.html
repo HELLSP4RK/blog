@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+
+{% load page_modules %}
+
+{% block body_class %}bg-light style-default style-rounded{% endblock %}
+{% block body %}
+
+<div class="main-container container my-xl-4" xmlns="http://www.w3.org/1999/html">
+        <div class="title-wrap">
+            <h1 class="section-title">{{ title }}</h1>
+        </div>
+
+        <form class="form-group" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="btn btn-lg btn-color col-2" value="Зарегистрироваться">
+            {% social_auth %}
+        </form>
+    </div>
+
+{% endblock %}

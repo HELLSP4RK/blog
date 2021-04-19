@@ -1,0 +1,47 @@
+{% load static %}
+{% load simple_tags %}
+
+<!-- Posts -->
+<div class="col-lg-8 blog__content mb-72">
+
+<!-- Worldwide News -->
+  <section class="section">
+    <div class="title-wrap title-wrap--line">
+      <h3 class="section-title">Свежие посты</h3>
+      <a href="{% url 'blog:posts' %}" class="all-posts-url">Показать все</a>
+    </div>
+
+  {% for post in posts %}
+    <article class="entry card post-list">
+      <div class="entry__img-holder post-list__img-holder card__img-holder" style="background-image: url({{ post.photo.url }})">
+        <a href="{% url 'blog:post' post.id post.slug %}" class="thumb-url"></a>
+        <img src="{{ post.photo.url }}" alt="" class="entry__img d-none">
+        <a href="{% url 'blog:category' post.category.slug %}" class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--{% random_color %}">
+            {{ post.category }}
+        </a>
+      </div>
+
+      <div class="entry__body post-list__body card__body">
+        <div class="entry__header">
+          <h2 class="entry__title">
+            <a href="{% url 'blog:post' post.id post.slug %}">{{ post.title|slice:20 }}</a>
+          </h2>
+          <ul class="entry__meta">
+            <li class="entry__meta-author">
+              <a href="{% url 'blog:user' post.author %}">{{ post.author }}</a>
+            </li>
+            <li class="entry__meta-date">
+                {{ post.published }}
+            </li>
+          </ul>
+        </div>
+        <div class="entry__excerpt">
+          <p>{{ post.content|truncatewords:30 }}</p>
+        </div>
+      </div>
+    </article>
+  {% endfor %}
+
+  </section> <!-- end worldwide news -->
+
+</div> <!-- end posts -->

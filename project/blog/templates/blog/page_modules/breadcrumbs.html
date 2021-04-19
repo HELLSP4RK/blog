@@ -1,0 +1,12 @@
+<!-- Breadcrumbs -->
+
+  <ul class="breadcrumbs">
+    {% for parent in breadcrumbs %}
+      <li class="breadcrumbs__item">
+        <a href="{% url 'blog:category' parent.slug %}" class="breadcrumbs__url">{{ parent.name }}</a>
+      </li>
+    {% endfor %}
+    <li class="breadcrumbs__item breadcrumbs__item--current">
+      {{ category.name }}
+    </li>
+  </ul>

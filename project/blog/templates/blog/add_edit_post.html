@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+
+{% block body_class %}bg-light style-default style-rounded{% endblock %}
+{% block body %}
+
+<div class="main-container container my-xl-4" xmlns="http://www.w3.org/1999/html">
+
+        <form class="form-group" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" class="btn btn-lg btn-color col-2" value="Готово!">
+        </form>
+    </div>
+
+{% endblock %}

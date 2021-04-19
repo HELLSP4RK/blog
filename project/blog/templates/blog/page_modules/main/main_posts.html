@@ -1,0 +1,67 @@
+{% load simple_tags %}
+
+{% if first_post %}
+  {% if posts %}
+    <div class="col-lg-6">
+      <!-- Small post -->
+      {% for post in posts %}
+        <div class="featured-posts-grid__item featured-posts-grid__item--sm">
+          <article class="entry card post-list featured-posts-grid__entry">
+            <div class="entry__img-holder post-list__img-holder card__img-holder" style="background-image: url({{ post.photo.url }})">
+              <a href="{% url 'blog:post' post.id post.slug %}" class="thumb-url">
+                <img src="{{ post.photo.url }}" alt="" class="entry__img d-none">
+              </a>
+              <a href="{% url 'blog:category' post.category.slug %}" class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--{% random_color %}">
+                {{ post.category }}
+              </a>
+            </div>
+            <div class="entry__body post-list__body card__body">
+              <h2 class="entry__title">
+                <a href="{% url 'blog:post' post.id post.slug %}">{{ post.title }}</a>
+              </h2>
+              <ul class="entry__meta">
+                <li class="entry__meta-author">
+                  <a href="{% url 'blog:user' first_post.author %}">{{ post.author }}</a>
+                </li>
+                <li class="entry__meta-date">
+                  {{ post.published }}
+                </li>
+              </ul>
+            </div>
+          </article>
+        </div>
+      <!-- end post -->
+    {% endfor %}
+  {% endif %}
+  </div>
+
+  <div class="col-lg-6">
+    <!-- Large post -->
+    <div class="featured-posts-grid__item featured-posts-grid__item--lg">
+      <article class="entry card featured-posts-grid__entry">
+        <div class="entry__img-holder card__img-holder">
+          <a href="{% url 'blog:post' first_post.id first_post.slug %}">
+            <img src="{{ first_post.photo.url }}" alt="" class="entry__img">
+          </a>
+          <a href="{% url 'blog:category' first_post.category.slug %}" class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--{% random_color %}">
+            {{ first_post.category }}
+          </a>
+        </div>
+        <div class="entry__body card__body">
+          <h2 class="entry__title">
+            <a href="{% url 'blog:post' first_post.id first_post.slug %}">{{ first_post.title }}</a>
+          </h2>
+          <ul class="entry__meta">
+            <li class="entry__meta-author">
+              <a href="{% url 'blog:user' first_post.author %}">{{ first_post.author }}</a>
+            </li>
+            <li class="entry__meta-date">
+              {{ first_post.published }}
+            </li>
+          </ul>
+        </div>
+      </article>
+    </div>
+    <!-- end large post -->
+  </div>
+{% endif %}

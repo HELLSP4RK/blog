@@ -1,0 +1,25 @@
+{% load static %}
+{% load page_modules %}
+
+
+{% for comment in comments %}
+      <ul class="children">
+        <li class="comment" id="comment-{{ comment.id }}">
+          <div class="comment-body">
+            <h6 class="comment-author"><a href="{% url 'blog:user' comment.author %}">{{ comment.author }}</a></h6>
+            <div class="comment-metadata">
+              <a href="{% url 'blog:post' comment.post.id comment.post.slug %}#comment-{{ comment.id }}" class="comment-date">
+                {{ comment.created }}
+              </a>
+            </div>
+            <div class="comment-text"  id="{{ comment.id }}">
+              <p>{{ comment.content }}</p>
+              <a href="{% url 'blog:post' comment.post.id comment.post.slug %}#comment-{{ comment.id }}" class="comment-reply">
+                Ответить
+              </a>
+            </div>
+          </div>
+        </li> <!-- end reply comment -->
+        {% child_comments comment %}
+      </ul>
+{% endfor %}

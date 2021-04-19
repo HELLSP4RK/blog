@@ -1,0 +1,46 @@
+{% extends 'blog/base.html' %}
+
+{% load static %}
+
+{% block body_class %}bg-light style-default style-rounded{% endblock %}
+{% block body %}
+
+    <div class="main-container container my-xl-4" id="main-container">
+        <div class="content-box">
+            <div class="row row-cols-2">
+                <div class="col">
+                    <div class="row title-wrap entry__title">{{ user }}</div>
+                    <div class="row entry__meta-date">Дата регистрации: {{ user.date_joined }}</div>
+                    <div class="row">
+                        {% if posts_count > 0 %}
+                            <a href="{% url 'blog:posts_by_user' user.username %}">Постов: {{ posts_count }}</a>
+                        {% else %}
+                            Нет постов
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        {% if comments_count > 0 %}
+                            <a href="{% url 'blog:comments_by_user' user.username %}">Комментариев: {{ comments_count }}</a>
+                        {% else %}
+                            Нет комментариев
+                        {% endif %}
+                    </div>
+                    {% if user == request.user %}
+                        <div>
+                          <a href="{% url 'blog:settings' %}" class="btn btn-sm btn-dark">
+                            <span>Настройки</span>
+                          </a>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col">
+                    {% if user.photo %}
+                    <div class="float_right">
+                        <img src="{{ user.photo.url }}" height="{{ photo_height }}" width="{{ photo_width }}"></div>
+                    {% endif %}
+
+                </div>
+                </div>
+            </div>
+</div>
+{% endblock %}

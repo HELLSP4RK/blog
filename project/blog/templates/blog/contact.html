@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block body_class %}style-default style-rounded{% endblock %}
+{% block body %}
+
+    <div class="main-container container" id="main-container">
+      <!-- post content -->
+      <div class="blog__content mb-72">
+        <h1 class="page-title">Контакты</h1>
+
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <p>Вы можете <a href="mailto:art.butakov@gmail.com">отправить мне письмо</a> или
+              <a href="https://t.me/art_byte">написать в Telegram</a></p>
+          </div>
+        </div>
+      </div> <!-- end post content -->
+    </div> <!-- end main container -->
+
+{% endblock %}

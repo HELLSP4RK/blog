@@ -1,0 +1,52 @@
+{% load static %}
+{% load page_modules %}
+{% load filters %}
+
+
+<ul class="comment-list">
+
+  {% for parent in parents %}
+  <li class="comment" id="comment-{{ parent.id }}">
+
+    <div class="comment-body">
+      <h6 class="comment-author"><a href="{% url 'blog:user' parent.author %}">{{ parent.author }}</a></h6>
+      <div class="comment-metadata">
+        <a href="{% url 'blog:post' parent.post.id parent.post.slug %}#comment-{{ parent.id }}" class="comment-date">
+          {{ parent.created }}
+        </a>
+      </div>
+      <div class="comment-text" id="{{ parent.id }}">
+        <p>{{ parent.content }}</p>
+        <a href="{% url 'blog:post' parent.post.id parent.post.slug %}#comment-{{ parent.id }}" class="comment-reply">
+          Ответить
+        </a>
+      </div>
+    </div>
+
+    {% child_comments parent %}
+
+  </li> <!-- end 1-2 comment -->
+  {% endfor %}
+
+</ul>
+
+
+<!-- Comment Form -->
+<div id="respond" class="comment-respond">
+  <form id="form" class="comment-form" action="{% url 'blog:add_comment' %}" method="post">
+    {% csrf_token %}
+
+    <input name="post_id" type="hidden" value="{{ post.id }}">
+    <input name="post_slug" type="hidden" value="{{ post.slug }}">
+    <input name="parent_id" id="parent_id" type="hidden">
+
+    <p class="comment-form-comment">
+      <textarea id="comment" name="comment" rows="5" required="required" placeholder="Написать комментарий..."></textarea>
+    </p>
+
+    <p class="comment-form-submit">
+      <input type="submit" class="btn btn-lg btn-color btn-button" value="Отправить" id="submit-message">
+    </p>
+
+  </form>
+</div> <!-- end comment form -->

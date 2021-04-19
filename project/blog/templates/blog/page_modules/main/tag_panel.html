@@ -1,0 +1,78 @@
+{% load static %}
+{% load simple_tags %}
+
+<!-- Posts -->
+<div class="col-lg-8 blog__content">
+
+  <!-- Latest News -->
+  <section class="section tab-post mb-16">
+    <div class="title-wrap title-wrap--line">
+      <h3 class="section-title">Популярные теги</h3>
+
+      <div class="tabs tab-post__tabs">
+        <ul class="tabs__list">
+          {% for value in values %}
+            {% if forloop.first %}
+              <li class="tabs__item tabs__item--active">
+            {% else %}
+              <li class="tabs__item">
+            {% endif %}
+                <a href="#tab-{{ value.0.slug }}" class="tabs__trigger">{{ value.0 }}</a>
+              </li>
+          {% endfor %}
+        </ul> <!-- end tabs -->
+      </div>
+    </div>
+
+    <!-- tab content -->
+    <div class="tabs__content tabs__content-trigger tab-post__tabs-content">
+      {% for value in values %}
+        {% if forloop.first %}
+          <div class="tabs__content-pane tabs__content-pane--active" id="tab-{{ value.0.slug }}">
+        {% else %}
+          <div class="tabs__content-pane" id="tab-{{ value.0.slug }}">
+        {% endif %}
+            <div class="row card-row">
+              {% for post in value.1 %}
+                <div class="col-md-6">
+                  <article class="entry card">
+                    <div class="entry__img-holder card__img-holder">
+                      <a href="{% url 'blog:post' post.id post.slug %}">
+                        <div class="thumb-container thumb-70">
+                          <img data-src="{{ post.photo.url }}" class="entry__img lazyload" alt="" />
+                        </div>
+                      </a>
+                      <a href="{% url 'blog:category' post.category.slug %}" class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--{% random_color %}">
+                        {{ post.category }}
+                      </a>
+                    </div>
+
+                    <div class="entry__body card__body">
+                      <div class="entry__header">
+
+                        <h2 class="entry__title">
+                          <a href="{% url 'blog:post' post.id post.slug %}">{{ post.title }}</a>
+                        </h2>
+                        <ul class="entry__meta">
+                          <li class="entry__meta-author">
+                            <a href="{% url 'blog:user' post.author.username %}">{{ post.author }}</a>
+                          </li>
+                          <li class="entry__meta-date">
+                            {{ post.published }}
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="entry__excerpt">
+                        <p>{{ post.content|truncatewords:20 }}</p>
+                      </div>
+                    </div>
+                  </article>
+                </div>
+              {% endfor %}
+            </div>
+          </div> <!-- end pane -->
+      {% endfor %}
+    </div> <!-- end tab content -->
+  </section> <!-- end latest news -->
+
+</div> <!-- end posts -->

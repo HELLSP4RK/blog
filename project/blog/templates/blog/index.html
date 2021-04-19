@@ -1,0 +1,44 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load page_modules %}
+
+{% block body_class %}bg-light style-default style-rounded{% endblock %}
+{% block body %}
+
+  <main class="main oh" id="main">
+
+    <!-- Trending Now -->
+    {% flash %}
+
+    <!-- Featured Posts Grid -->      
+    <section class="featured-posts-grid">
+      <div class="container">
+        <div class="row row-8">
+          {% main_posts %}
+        </div>
+      </div>
+    </section> <!-- end featured posts grid -->
+
+    <div class="main-container container pt-24" id="main-container">         
+
+      <!-- Content -->
+      <div class="row">
+        {% tag_panel %}
+        {% popular_posts %}
+      </div> <!-- end content -->
+
+<!-- Content Secondary -->
+<div class="row">
+
+        {% latest_posts posts %}
+
+        <!-- Sidebar 1 -->
+        <aside class="col-lg-4 sidebar sidebar--1 sidebar--right">
+
+          {% categories %}
+
+        </aside> <!-- end sidebar 1 -->
+  </div> <!-- content secondary -->
+</div> <!-- end main container -->
+
+{% endblock %}

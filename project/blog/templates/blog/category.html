@@ -1,0 +1,73 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% load filters %}
+{% load page_modules %}
+{% load simple_tags %}
+
+{% block body_class %}bg-light style-default style-rounded{% endblock %}
+{% block body %}
+
+    <div class="main-container container my-xl-4" id="main-container">
+        {% breadcrumbs category %}
+        <div class="title-wrap">
+            <h1 class="section-title">{{ title }}</h1>
+        {% if request.user.is_active %}
+            <div class="col-lg-2">
+                <form action="{% url 'blog:subscribe_or_unsubscribe' %}" method="get">
+                    {% csrf_token %}
+                    <input name="category_slug" type="hidden" value="{{ category.slug }}">
+                    {% if request.user in subscribers %}
+                        <input type="SUBMIT" class="btn btn-lg btn-color" value="Отписаться">
+                    {% else %}
+                        <input type="SUBMIT" class="btn btn-lg btn-color" value="Подписаться">
+                    {% endif %}
+                </form>
+            </div>
+        {% endif %}
+        </div>
+        <div class="title-wrap">
+            <h3 class="entry__title">{{ cats_count }} {{ cats_count|repluralize:'категория, категории, категорий' }}</h3>
+        </div>
+        {% for cat in child_cats %}
+            {% show_cats cat %}
+        {% endfor %}
+        <div class="title-wrap">
+            <h3 class="entry__title">{{ posts_count }} {{ posts_count|repluralize }}</h3>
+        </div>
+        {% for post in posts %}
+            <article class="entry card post-list">
+              <div class="entry__img-holder post-list__img-holder card__img-holder" style="background-image: url({{ post.photo.url }})">
+                <a href="{% url 'blog:post' post.id post.slug %}" class="thumb-url"></a>
+                <img src="{{ post.photo.url }}" alt="" class="entry__img d-none">
+                <a href="{% url 'blog:category' post.category.slug %}" class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--{% random_color %}">
+                    {{ post.category }}
+                </a>
+              </div>
+
+              <div class="entry__body post-list__body card__body">
+                <div class="entry__header">
+                  <h2 class="entry__title">
+                    <a href="{% url 'blog:post' post.id post.slug %}">{{ post.title|slice:30 }}</a>
+                  </h2>
+                  <ul class="entry__meta">
+                    <li class="entry__meta-author">
+                      <a href="{% url 'blog:user' post.author %}">{{ post.author }}</a>
+                    </li>
+                    <li class="entry__meta-date">
+                        {{ post.published }}
+                    </li>
+                  </ul>
+                </div>
+                <div class="entry__excerpt">
+                  <p>{{ post.content|truncatewords:30 }}</p>
+                </div>
+              </div>
+            </article>
+        {% endfor %}
+
+        {% include 'blog/page_modules/pagination.html' with page=page_obj %}
+
+    </div>
+
+{% endblock %}

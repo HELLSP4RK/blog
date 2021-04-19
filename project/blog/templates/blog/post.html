@@ -1,0 +1,98 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load page_modules %}
+{% load filters %}
+{% load simple_tags %}
+
+{% block body_class %}bg-light single-post style-default style-rounded{% endblock %}
+{% block body %}
+
+  <main class="main oh" id="main">
+        
+    <div class="container">
+
+      {% breadcrumbs post.category %}
+
+    </div>
+    <div class="main-container container" id="main-container">
+
+      <!-- Content -->
+      <div class="row">
+            
+        <!-- post content -->
+        <div class="col-lg-8 blog__content mb-72">
+          <div class="content-box">           
+
+            <!-- standard post -->
+            <article class="entry mb-0">
+              
+              <div class="single-post__entry-header entry__header">
+                <a href="{% url 'blog:category' post.category.slug %}" class="entry__meta-category entry__meta-category--label entry__meta-category--{% random_color %}">
+                  {{ post.category }}
+                </a>
+                <h1 class="single-post__entry-title">
+                  {{ post.title }}
+                </h1>
+
+                <div class="entry__meta-holder">
+                  <ul class="entry__meta">
+                    <li class="entry__meta-author">
+                      <a href="{% url 'blog:user' post.author %}">{{ post.author }}</a>
+                    </li>
+                    <li class="entry__meta-date">
+                      {{ post.published }}
+                    </li>
+                  </ul>
+
+                  <ul class="entry__meta">
+                    <li class="entry__meta-comments">
+                      <a href="#comments">
+                        <i class="ui-chat-empty"></i>{{ comments_count }}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div> <!-- end entry header -->
+
+              <div class="entry__img-holder">
+                <img src="{{ post.photo.url }}" alt="" class="entry__img">
+              </div>
+
+              <div class="entry__article-wrap">
+
+                <div class="entry__article">
+                  {{ post.content|linebreaks }}
+                  <!-- tags -->
+                  <div class="entry__tags">
+                    <i class="ui-tags"></i>
+                    <span class="entry__tags-label">Теги:</span>
+                    {% for tag in post.tags.all %}
+                      <a href="{% url 'blog:tag' tag.slug %}" rel="tag">{{ tag }}</a>
+                    {% endfor %}
+                  </div> <!-- end tags -->
+
+                </div> <!-- end entry article -->
+              </div> <!-- end entry article wrap -->
+
+            </article> <!-- end standard post -->
+
+            <!-- Comments -->
+            <div class="entry-comments" id="comments">
+              <div class="title-wrap title-wrap--line">
+                <h3 class="section-title">{{ comments_count }} {{ comments_count|repluralize:'комментарий, комментария, комментариев' }}</h3>
+              </div>
+
+                {% show_comments post %}
+
+            </div> <!-- end comments -->
+          </div> <!-- end content box -->
+        </div> <!-- end post content -->
+        
+      {% popular_posts %}
+      
+      </div> <!-- end content -->
+    </div> <!-- end main container -->
+
+{% endblock %}
+
+{% block scripts %}<script src="{% static 'blog/js/comment_form.js' %}"></script>{% endblock %}

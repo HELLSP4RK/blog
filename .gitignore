@@ -1,0 +1,9 @@
+.idea/
+**/__pycache__/
+
+project/media/
+project/static/
+project/blog/migrations/
+
+pgsql/
+venv/

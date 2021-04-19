@@ -1,0 +1,11 @@
+{% load static %}
+
+<!-- Widget Categories -->
+<aside class="widget widget_categories">
+    <h4 class="widget-title"><a href="{% url 'blog:categories' %}">Категории</a></h4>
+<ul>
+    {% for cat in cats %}
+        <li><a href="{% url 'blog:category' cat.slug %}">{{ cat }} <span class="categories-count">{{ cat.posts_count }}</span></a></li>
+    {% endfor %}
+</ul>
+</aside> <!-- end widget categories -->

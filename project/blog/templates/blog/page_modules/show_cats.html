@@ -1,0 +1,15 @@
+{% load filters %}
+
+<article class="entry card">
+    <div class="card__body row">
+        <div class="col-8">
+            <a href="{% url 'blog:category' cat.slug %}" class="entry__title">{{ cat }}</a>
+        </div>
+        <div class="col-2">
+            {{ child_cats_count }} {{ child_cats_count|repluralize:'категория, категории, категорий' }}
+        </div>
+        <div class="col-2">
+            {{ posts_count }} {{ posts_count|repluralize }}
+        </div>
+    </div>
+</article>

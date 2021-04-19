@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  postgresql:
+    image: postgres:latest
+    volumes:
+      - ./pgsql/database:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_DB: blog
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+
+      TZ: 'Europe/Moscow'
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    volumes:
+      - ./pgsql/pgadmin:/var/lib/pgadmin
+    environment:
+        PGADMIN_DEFAULT_EMAIL: art.butakov@gmail.com
+        PGADMIN_DEFAULT_PASSWORD: secret
+    ports:
+      - 80:80
+

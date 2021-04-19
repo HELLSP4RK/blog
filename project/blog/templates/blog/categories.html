@@ -1,0 +1,24 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load page_modules %}
+{% load filters %}
+
+{% block body_class %}bg-light style-default style-rounded{% endblock %}
+{% block body %}
+
+    <div class="main-container container my-xl-4" id="main-container">
+        <div class="title-wrap">
+            <h1 class="section-title">{{ title }}</h1>
+        </div>
+         <div class="title-wrap">
+            <h3 class="entry__title">{{ cats_count }} {{ cats_count|repluralize:'категория, категории, категорий' }}</h3>
+        </div>
+        {% for cat in cats %}
+            {% show_cats cat %}
+        {% endfor %}
+
+        {% include 'blog/page_modules/pagination.html' with page=page_obj %}
+
+    </div>
+
+{% endblock %}

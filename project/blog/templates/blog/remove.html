@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+{% load page_modules %}
+{% load filters %}
+
+{% block body_class %}bg-light style-default style-rounded{% endblock %}
+{% block body %}
+
+    <div class="main-container justify-content-center" id="main-container">
+        <div class="row justify-content-center">
+            <h3 class="title-wrap">Удалить "{{ post }}"?</h3>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-lg btn-color col-2" value="Да">
+                </form>
+            </div>
+             <div class="col-4">
+                <a href="{% url 'blog:posts_by_user' username %}">Отмена</a>
+             </div>
+        </div>
+
+    </div>
+
+{% endblock %}
