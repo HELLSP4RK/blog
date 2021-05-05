@@ -34,7 +34,10 @@ class LoginUserView(ContextMixin, LoginView):
     template_name = 'blog/login.html'
 
     def get_context_data(self, *args, **kwargs):
-        return self.get_user_context(title='Авторизация')
+        context = {
+            'title': 'Авторизация',
+        }
+        return self.get_user_context(**context)
 
 
 class LogoutUserView(LogoutView):
@@ -47,9 +50,13 @@ class LogoutUserView(LogoutView):
 class RegisterUserView(ContextMixin, FormView):
     form_class = RegisterForm
     template_name = 'blog/register.html'
+    success_url = reverse_lazy('blog:main')
 
     def get_context_data(self, *args, **kwargs):
-        return self.get_user_context(title='Регистрация')
+        context = {
+            'title': 'Регистрация',
+        }
+        return self.get_user_context(**context)
 
     def form_valid(self, form):
         form.save()
@@ -59,9 +66,6 @@ class RegisterUserView(ContextMixin, FormView):
         login(self.request, user)
         return super(RegisterUserView, self).form_valid(form)
 
-    def get_success_url(self):
-        return reverse('blog:main')
-
 
 class AddPostView(LoginRequiredMixin, ContextMixin, CreateView):
     model = Post
@@ -70,7 +74,10 @@ class AddPostView(LoginRequiredMixin, ContextMixin, CreateView):
     template_name = 'blog/add_edit_post.html'
 
     def get_context_data(self, *args, **kwargs):
-        return self.get_user_context(title='Создание поста')
+        context = {
+            'title': 'Создание поста',
+        }
+        return self.get_user_context(**context)
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -92,7 +99,10 @@ class EditPostView(LoginRequiredMixin, ContextMixin, UpdateView):
         return get_post(pk, slug)
 
     def get_context_data(self, **kwargs):
-        return self.get_user_context(title=f'Редактирование поста {self.object.title}')
+        context = {
+            'title': f'Редактирование поста {self.object.title}',
+        }
+        return self.get_user_context(**context)
 
 
 class RemovePostView(LoginRequiredMixin, ContextMixin, DeleteView):
@@ -136,7 +146,6 @@ class UserView(ContextMixin, DetailView):
             'photo_height': 350,
             'photo_width': 250,
         }
-
         return self.get_user_context(**context)
 
     def get_object(self, **kwargs):
@@ -167,7 +176,10 @@ class ChangeForgottenPasswordView(ContextMixin, PasswordResetConfirmView):
     success_url = reverse_lazy('blog:login')
 
     def get_context_data(self, **kwargs):
-        return self.get_user_context(button='Изменить')
+        context = {
+            'button': 'Изменить',
+        }
+        return self.get_user_context(**context)
 
     def form_valid(self, form):
         return super(ChangeForgottenPasswordView, self).form_valid(form)
@@ -179,7 +191,10 @@ class ChangePasswordView(LoginRequiredMixin, ContextMixin, PasswordChangeView):
     success_url = reverse_lazy('blog:settings')
 
     def get_context_data(self, **kwargs):
-        return self.get_user_context(button='Изменить')
+        context = {
+            'button': 'Изменить',
+        }
+        return self.get_user_context(**context)
 
 
 class UserSettingsView(LoginRequiredMixin, ContextMixin, UpdateView):
@@ -207,7 +222,6 @@ class AuthUserView(LoginRequiredMixin, ContextMixin, DetailView):
             'photo_height': 350,
             'photo_width': 250,
         }
-
         return self.get_user_context(**context)
 
     def get_object(self, **kwargs):
@@ -219,7 +233,10 @@ class MainPageView(ContextMixin, ListView):
     template_name = 'blog/index.html'
 
     def get_context_data(self, *args, **kwargs):
-        return self.get_user_context(title='Блог')
+        context = {
+            'title': 'Блог',
+        }
+        return self.get_user_context(**context)
 
     def get_queryset(self):
         return get_public_posts()
@@ -235,13 +252,15 @@ class PostView(ContextMixin, DetailView):
             'title': f'{self.object}',
             'comments_count': get_comments_count_by_post(self.object),
         }
-
         return self.get_user_context(**context)
 
     def get_object(self, **kwargs):
         pk = self.kwargs[self.pk_url_kwarg]
         slug = self.kwargs[self.slug_url_kwarg]
-        return get_post(pk, slug)
+        post = get_post(pk, slug)
+        if post.status == Post.Status.DRAFT and post.author != self.request.user:
+            raise PermissionDenied
+        return post
 
 
 @login_required
@@ -279,7 +298,7 @@ class PostListView(ContextMixin, ListView):
         return get_public_posts()
 
 
-class CatList(ContextMixin, ListView):
+class CatListView(ContextMixin, ListView):
     context_object_name = 'cats'
     paginate_by = settings.PAGINATE_BY
     template_name = 'blog/categories.html'
@@ -295,7 +314,7 @@ class CatList(ContextMixin, ListView):
         return get_root_categories()
 
 
-class TagList(ContextMixin, ListView):
+class TagListView(ContextMixin, ListView):
     context_object_name = 'tags'
     template_name = 'blog/tags.html'
 
@@ -342,9 +361,11 @@ class PostListByTagView(ContextMixin, ListView):
 
     def get_context_data(self, *args, **kwargs):
         tag = get_tag(slug=self.kwargs['slug'])
-        title = f'Посты по тегу "{tag}"'
-        count = get_queryset_count(self.object_list)
-        return self.get_user_context(title=title, count=count)
+        context = {
+            'title': f'Посты по тегу "{tag}"',
+            'count': get_queryset_count(self.object_list),
+        }
+        return self.get_user_context(**context)
 
     def get_queryset(self):
         return get_posts_by_tag(slug=self.kwargs['slug'])
@@ -364,7 +385,6 @@ class PostListByUserView(ContextMixin, ListView):
             'count': get_queryset_count(self.object_list),
             'own_page': self.__own_page(),
         }
-
         return self.get_user_context(**context)
 
     def get_queryset(self):
@@ -375,7 +395,7 @@ class PostListByUserView(ContextMixin, ListView):
         return get_public_posts_by_user(username)
 
 
-class CommentsListByUser(ContextMixin, ListView):
+class CommentsListByUserView(ContextMixin, ListView):
     context_object_name = 'comments'
     template_name = 'blog/user_comments.html'
     paginate_by = settings.PAGINATE_BY

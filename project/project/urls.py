@@ -24,6 +24,7 @@ urlpatterns = [
     path('social_auth/', include('social_django.urls', namespace='social_auth')),
 
     path('', include(('blog.urls', 'blog'), namespace='blog')),
+    path('api/', include(('api.urls', 'api'), namespace='api')),
 ]
 
 if settings.DEBUG:

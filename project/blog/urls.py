@@ -15,15 +15,15 @@ urlpatterns = [
     path('post/<int:id>-<slug:slug>/edit/', EditPostView.as_view(), name='edit_post'),
     path('post/<int:id>-<slug:slug>/remove/', RemovePostView.as_view(), name='remove_post'),
     path('posts/', PostListView.as_view(), name='posts'),
-    path('categories/', CatList.as_view(), name='categories'),
-    path('tags/', TagList.as_view(), name='tags'),
+    path('categories/', CatListView.as_view(), name='categories'),
+    path('tags/', TagListView.as_view(), name='tags'),
     path('search/', SearchView.as_view(), name='search'),
     path('category/<slug:slug>/', PostListByCatView.as_view(), name='category'),
     path('tag/<slug:slug>/', PostListByTagView.as_view(), name='tag'),
     path('accounts/profile/', AuthUserView.as_view(), name='auth_user'),
     path('accounts/<username>/', UserView.as_view(), name='user'),
     path('accounts/<username>/posts/', PostListByUserView.as_view(), name='posts_by_user'),
-    path('accounts/<username>/comments/', CommentsListByUser.as_view(), name='comments_by_user'),
+    path('accounts/<username>/comments/', CommentsListByUserView.as_view(), name='comments_by_user'),
     path('settings/', UserSettingsView.as_view(), name='settings'),
 
     # Обработчики восстановления пароля

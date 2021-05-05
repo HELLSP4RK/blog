@@ -34,9 +34,9 @@ def popular_posts():
 
 
 @register.inclusion_tag('blog/page_modules/main/latest_posts.html')
-def latest_posts(posts):
+def latest_posts(posts, how_much=5):
     return {
-        'posts': posts[:5],
+        'posts': posts[:how_much],
     }
 
 

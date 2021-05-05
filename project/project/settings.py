@@ -39,11 +39,13 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'blog',
+    'api',
 
     'debug_toolbar',
     'mptt',
     'social_django',
     'taggit',
+    'rest_framework',
 
     'django.contrib.admin',
     'django.contrib.auth',
