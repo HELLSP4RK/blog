@@ -141,7 +141,7 @@ class UserView(ContextMixin, DetailView):
         """Получаем username из уже выполненного запроса в методе get_object и передаем его в title"""
         context = {
             'title': f"Пользователь {self.object.username}",
-            'posts_count': get_posts_count_by_user(user=self.object),
+            'posts_count': get_posts_count_by_user(user=self.object, auth_user=self.request.user),
             'comments_count': get_comments_count_by_user(user=self.object),
             'photo_height': 350,
             'photo_width': 250,
@@ -336,7 +336,7 @@ class PostListByCatView(ContextMixin, ListView):
 
     def get_context_data(self, *args, **kwargs):
         category = get_category(slug=self.kwargs['slug'])
-        child_cats = get_categorys_children(category)
+        child_cats = get_child_categories(category)
         title = f'Категория "{category}"'
         posts_count = get_queryset_count(self.object_list)
         cats_count = get_queryset_count(child_cats)
@@ -395,7 +395,7 @@ class PostListByUserView(ContextMixin, ListView):
         return get_public_posts_by_user(username)
 
 
-class CommentsListByUserView(ContextMixin, ListView):
+class CommentListByUserView(ContextMixin, ListView):
     context_object_name = 'comments'
     template_name = 'blog/user_comments.html'
     paginate_by = settings.PAGINATE_BY

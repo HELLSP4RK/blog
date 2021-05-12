@@ -41,7 +41,7 @@ class Category(MPTTModel):
 
 class PublishedManager(Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(status='publication')
+        return super().get_queryset().filter(status=Post.Status.PUBLICATION)
 
 
 class Post(Model):
@@ -131,9 +131,6 @@ class Comment(MPTTModel):
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
         ordering = ('-created', 'post', 'author')
-
-    def get_absolute_url(self):
-        return reverse('blog:comment', args=[self.post.id, self.post.slug, self.id])
 
     def __str__(self):
         return f'{self.post.id}-{self.post.slug[:10]} | {self.author} / {self.content[:15]} - {str(self.created)[:-13]}'

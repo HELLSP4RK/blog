@@ -7,7 +7,7 @@ def get_root_categories():
     return Category.objects.filter(parent=None).annotate(posts_count=Count('posts'))
 
 
-def get_categorys_children(category):
+def get_child_categories(category):
     return category.get_children().annotate(posts_count=Count('posts'))
 
 

@@ -25,6 +25,9 @@ urlpatterns = [
 
     path('', include(('blog.urls', 'blog'), namespace='blog')),
     path('api/', include(('api.urls', 'api'), namespace='api')),
+    path('api/', include('rest_framework.urls', 'rest_framework')),
+    path('api/auth/', include('djoser.urls')),
+    path('api/authtoken/', include('djoser.urls.authtoken')),
 ]
 
 if settings.DEBUG:

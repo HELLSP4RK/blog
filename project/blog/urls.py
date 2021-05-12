@@ -23,7 +23,7 @@ urlpatterns = [
     path('accounts/profile/', AuthUserView.as_view(), name='auth_user'),
     path('accounts/<username>/', UserView.as_view(), name='user'),
     path('accounts/<username>/posts/', PostListByUserView.as_view(), name='posts_by_user'),
-    path('accounts/<username>/comments/', CommentsListByUserView.as_view(), name='comments_by_user'),
+    path('accounts/<username>/comments/', CommentListByUserView.as_view(), name='comments_by_user'),
     path('settings/', UserSettingsView.as_view(), name='settings'),
 
     # Обработчики восстановления пароля

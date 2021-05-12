@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'social_django',
     'taggit',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+    'taggit_serializer',
 
     'django.contrib.admin',
     'django.contrib.auth',
