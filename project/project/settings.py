@@ -161,17 +161,9 @@ AUTH_USER_MODEL = 'blog.User'
 PAGINATE_BY = 4
 
 
-# SMTP-server settings
-
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-EMAIL_PORT = os.environ.get('EMAIL_PORT')
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-SERVER_EMAIL = EMAIL_HOST_USER
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+# Mailhog SMTP
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
 
 
 # Social networks authentication
