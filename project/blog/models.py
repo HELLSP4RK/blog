@@ -19,7 +19,8 @@ class User(AbstractUser):
 
 class Category(MPTTModel):
     name = CharField(max_length=50, unique=True, verbose_name='Название')
-    slug = SlugField(max_length=80, unique=True, verbose_name='URL')
+    slug = AutoSlugField(max_length=80, populate_from='name', unique=True, always_update=True, editable=True,
+                         verbose_name='URL')
     parent = TreeForeignKey('self', on_delete=PROTECT, blank=True, null=True,
                             related_name='children', verbose_name='Родительская категория')
 
