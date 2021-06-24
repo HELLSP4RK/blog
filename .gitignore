@@ -1,9 +1,9 @@
 .idea/
 **/__pycache__/
 
+.pgsql/
+.venv/
+
 project/media/
 project/static/
 project/**/migrations/
-
-pgsql/
-venv/
